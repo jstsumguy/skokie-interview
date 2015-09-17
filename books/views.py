@@ -24,12 +24,13 @@ def index(request):
 	if request.user.is_authenticated():
 		logged_in = True
 	books = [book for book in Book.objects.all()[:50]]
-	return render(request, 'home.html', {'books': books, 'logged_in': logged_in})
+	return render(request, 'home.html', {'books': books, 'logged_in': logged_in })
 
 def book(request, book_id):
 	logged_in = False
 	book = Book.objects.get(id=book_id)
 	reviews = Review.objects.filter(book=book)
+	reviews_count = len(reviews)
 	user_id = request.user.id if request.user.is_authenticated() else None
 	submitted = None
 	if request.user.is_authenticated():
@@ -41,6 +42,7 @@ def book(request, book_id):
 				break
 	return render(request, 'book.html', {'book': book, 
 										'reviews': reviews, 
+										'reviews_count': reviews_count,
 										'logged_in': logged_in, 
 										'submitted': submitted, 
 										'book_id': book_id, 

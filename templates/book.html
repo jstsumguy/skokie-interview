@@ -35,6 +35,10 @@
                 <a class="title" href="#">{{ book.title }}</a>
                 <h3 class="author">{{ book.author }}</h3>
                 <p class="release-date"><strong>Released:</strong> {{ book.release_date|date:'Y/m/d' }}</p>
+                <!-- badge -->
+                <button class="btn btn-info" type="button">
+                  Reviews <span class="badge">{{ reviews_count }}</span>
+                </button>
               </div>
             <!-- end tab 1 -->
             </div>
@@ -117,17 +121,16 @@ $(document).ready(function() {
   for(i=0; i < ratings.length; i++) {
     parent = ratings[i];
     rval = parent.getElementsByClassName('rating_value')[0].value;
-    console.log('rval ' + rval);
     if((!isNaN(rval)) && (rval > 0)) {
-        for(i=1; i <= rval; i++) {
+        for(k=1; k <= rval; k++) {
           star = document.createElement('span');
           star.innerHTML = '&#9733';
           star.className = 'star';
           nodeBefore = parent.getElementsByClassName('review-title')[0];
           parent.insertBefore(star, nodeBefore);
-      }
-    } 
-  }
+      }// inner for
+    } // if
+  }// for
 
   // function createStarWidget(parent, ratingVal) {
   //   for(i=1; i <= ratingVal; i++) {
