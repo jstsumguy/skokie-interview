@@ -4,6 +4,7 @@
     border: none; 
     max-height: 360px;
     overflow: auto;
+    border-left: 1px solid #c0c0c0;
 } 
 #tabs-min-0, #tabs-min-1, #tabs-min-2, #tabs-min-3, #tabs-min-4 {
     margin-top: 10px;
