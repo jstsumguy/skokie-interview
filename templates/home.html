@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block styles %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script type="text/javascript">
+  $(function() {
+      $( "#tabs" ).tabs();
+    });
+</script>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="{{ rp }}/static/styles/index.css">
+{% endblock %}
+{% block content %}
+<div class="main-content">
+{% for book in books %}
+<div class="book">
+	{% if book.cover_img != None %}
+	<div class="cover">
+		<img src="{{ rp }}/static/img/book/{{ book.cover_img }}">
+	</div>
+	{% endif %}
+	<div class="heading">
+		<a class="title" href="{{ rp }}/book/{{ book.id }}/">{{ book.title }}</a>
+		<h3 class="author">{{ book.author }}</h3>
+		<p class="release-date"><strong>Released:</strong> {{ book.release_date }}</p>
+	</div>
+</div>
+{% endfor %}
+</div>
+{% endblock %}
+{% block scripts %}
+{% endblock %}

@@ -1,0 +1,95 @@
+/* clean tabs */
+#tabs-min { 
+    background: transparent; 
+    border: none; 
+    max-height: 360px;
+    overflow: auto;
+} 
+#tabs-min-0, #tabs-min-1, #tabs-min-2, #tabs-min-3, #tabs-min-4 {
+    margin-top: 10px;
+}
+#tabs-min .ui-widget-header { 
+    background: transparent; 
+    border: none; 
+    border-bottom: 1px solid #c0c0c0; 
+    -moz-border-radius: 0px; 
+    -webkit-border-radius: 0px; 
+    border-radius: 0px; 
+} 
+#tabs-min .ui-tabs-nav .ui-state-default { 
+    background: transparent; 
+    border: none;
+    outline:none;
+} 
+#tabs-min .ui-tabs-nav .ui-state-active { 
+    border: none; 
+    outline:none;
+} 
+#tabs-min .ui-tabs-nav .ui-state-default a { 
+    font-size: 1.5em;
+}
+#tabs-min .ui-tabs-nav .ui-state-default a { 
+    color: #c0c0c0; 
+} 
+#tabs-min .ui-tabs-nav .ui-state-active a { 
+    color: #337ab7; 
+}
+
+/* review forms */
+form#new-review {
+	padding: 25px;
+    border: 2px solid #f2f2f2;
+    margin-bottom: 25px;
+    border-radius: 19px;
+    margin-top: 15px;
+}
+div.review {
+    border-bottom: 2px solid #f2f2f2;
+    width: 80%;
+    margin-bottom: 15px;
+    max-height: 200px;
+    padding: 15px;
+    overflow: auto;
+}
+.form-component {
+	display: block;
+	width: 100%;
+	border: 2px solid #f2f2f2;
+	margin-bottom: 10px;
+}
+#review-title {
+	font-size: 1.5em;
+    border-radius: 19px;
+    padding: 7px;
+    margin-bottom: 10px;
+    margin-left: -7px;
+}
+#review-content {
+	font-size: 1em;
+    border-radius: 19px;
+    padding: 7px;
+    margin-bottom: 10px;
+    margin-left: -7px;
+}
+button#show-form {
+    float: right;
+    margin-right: 10px;
+}
+
+/* Stars */
+.rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    margin-right: 12px;
+    margin-bottom: 20px;
+}
+.rating > span {
+  display: inline-block;
+  position: relative;
+  width: 1.1em;
+}
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+   content: "\2605";
+   position: absolute;
+}

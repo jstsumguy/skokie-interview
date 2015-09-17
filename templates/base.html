@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% block styles %}
+{% endblock %}
+</head>
+<body>
+<div class="content">
+
+	{% if logged_in %}
+	<a id="logout" href="/logout/"></a>
+	{% else %}
+	<a id="login" href="/accounts/login/"></a>
+	{% endif %}
+
+	<div class="nav">
+		<img id="icon" src="{{ rp }}/static/img/library.ico">
+		<ul class="nav-items">
+			<li><a href="#">Events</a></li>
+			<li><a href="#">Books</a></li>
+			<li><a href="#">Resources</a></li>
+			<li><a href="#">Services</a></li>
+			<li><a href="#">About</a></li>
+		</ul>
+	</div>	
+
+	<div class="main">
+		{% block content %}
+		{% endblock %}
+	</div>
+</div>
+
+
+<!-- scripts -->
+{% block scripts %}
+<script type="text/javascript" src="{{ rp }}/static/scripts/index.js"></script>
+{% endblock %}
+</body>
+</html>

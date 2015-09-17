@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block styles %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script type="text/javascript">
+  $(function() {
+      $( "#tabs-min").tabs();
+    });
+</script>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="{{ rp }}/static/styles/index.css">
+<link rel="stylesheet" type="text/css" href="{{ rp }}/static/styles/book.css">
+{% endblock %}
+{% block content %}
+<div class="main-content">
+<input type="hidden" id="book_id" value="{{ book_id }}" />
+<input type="hidden" id="user_id" value="{{ user_id }}" />
+<!-- Begin tab content -->
+<div class="row">
+    <div>
+        <article id="tabs-min">
+            <ul>
+                <li><a class="no" href="#tabs-min-1">Book</a></li>
+                <li><a class="no" href="#tabs-min-2">Reviews</a></li>
+            </ul>
+
+            <div id="tabs-min-1">
+              {% if book.cover_img %}
+              <div class="cover">
+                <img src="{{ rp }}/static/img/book/{{ book.cover_img }}">
+              </div>
+              {% endif %}
+              <div class="heading">
+                <a class="title" href="#">{{ book.title }}</a>
+                <h3 class="author">{{ book.author }}</h3>
+                <p class="release-date"><strong>Released:</strong> {{ book.release_date|date:'Y/m/d' }}</p>
+              </div>
+            <!-- end tab 1 -->
+            </div>
+                
+            <div id="tabs-min-2">
+            {% if logged_in %}
+              <!-- New/Edit Review -->
+                {% if submitted %}
+                  <button type="button" id="show-form" class="btn btn-info">Edit</button>
+                  <div class="new-review-container" style="display: none;">
+                    <form id="new-review" onsubmit="return false;">
+                      <input type="hidden" id="review_id" value="{{ submitted.id }}"/>
+                      <input type="hidden" id="rating-val" value="{{ submitted.rating }}" />
+
+                      <div class="rating"><!-- Star --></div>
+                      <input type="text" class="form-component" id="review-title" value="{{ submitted.title }}">
+                      <textarea id="review-content" class="form-component">{{ submitted.content }}</textarea>
+                      <button id="submit-edit-review" type="button" class="btn btn-default">Edit</button>
+                    </form>
+                  </div>
+                {% else %}
+                {% if not reviews %}<p id="alert">Be the first to write a review</p>{% endif %}
+                  <button type="button" id="show-form" class="btn btn-info">New</button>
+                  <div class="new-review-container" style="display: none;">
+                    <form id="new-review" onsubmit="return false;">
+                      <input type="text" class="form-component" id="review-title" placeholder="Add a title">
+                      <textarea class="form-component" id="review-content" placeholder="Add content here"></textarea>
+                      <button id="submit-new-review" type="button" class="btn btn-default">Submit</button>
+                    </form>
+                  </div>
+                {% endif %}
+                <div class="reviews-container">      
+                  {% for review in reviews %}
+                    <div class="review">
+                      <h2 class="review-title">{{ review.title }}</h2>
+                      <p class="review-author"> 
+                      Submitted by {{ review.user.username }} on {{ review.updated|date:'Y/m/d' }}
+                      </p>
+                      <article>{{ review.content }}</article>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% else %}
+              <div class="alert">
+                  <p>You must be <a href="{{ rp }}/accounts/login/">logged in</a> to access the reviews</p>
+              </div>
+              {% endif %}
+            <!-- end tab 2 -->
+            </div>
+        </article>  
+    </div>
+</div>
+<!-- end tabbed content -->
+<!-- end /row -->
+<!-- end main content -->
+</div>
+
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+$(document).ready(function() {
+  var user_id = $('#user_id').val();
+  var book_id = $('#book_id').val();
+  var rating = $('#rating-val').val();
+  console.log('Rating ' + rating);
+
+  /* init stars */
+  if((!isNaN(rating)) && (rating > 0)) {
+    rating_container = document.getElementsByClassName('rating')[0];
+    for(i=1; i <= rating; i++) {
+      star = document.createElement('span');
+      star.innerHTML = '&#9733';
+      star.setAttribute('id', 'star-' + i);
+      rating_container.appendChild(star);
+    }
+  }
+
+
+
+  $('#submit-edit-review').on('click', function(event) {
+    event.preventDefault();
+    data = {};
+    data.title = $('#review-title').val();
+    data.content = $('#review-content').val();
+    data.review_id = $('#review_id').val();
+    console.log(JSON.stringify(data));
+    $.ajax({
+      url: '../../edit_review/',
+      type: 'post',
+      data: JSON.stringify(data),
+      success: function(response) {
+        if(response == 'success') {
+          location.reload();
+        }
+      } 
+    })
+  })
+
+  $('#submit-new-review').on('click', function(event) {
+    event.preventDefault();
+    console.log('clicked new review button');
+    data = {};
+    data['title'] = $('#review-title').val();
+    data['content'] = $('#review-content').val();
+    data['user_id'] = user_id;
+    data['book_id'] = book_id;
+    data['rating'] = $('#rating-val');
+
+    if(data['user_id'] != null) {
+      console.log('calling ajax');
+      $.ajax({
+        url: '../../new_review/',
+        type: 'post',
+        data: JSON.stringify(data),
+        success: function(response) {
+          if(response == 'success') {
+            location.reload();
+          }
+        } 
+      })
+    }
+  })
+
+  $('#show-form').on('click', function() {
+    $('.reviews-container').css('display', 'none');
+    $('#show-form').css('display', 'none');
+    $('#alert').css('display', 'none');
+    $('div.new-review-container').fadeIn('slow');
+  })
+
+})
+</script>
+{% endblock %}
