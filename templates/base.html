@@ -8,6 +8,7 @@
 <div class="content">
 
 	{% if logged_in %}
+		<input id="username" type="hidden" value="{{ logged_in }}" />
 		<a id="logout" href="/logout/"></a>
 	{% else %}
 		<a id="login" href="href="/accounts/login/""></a>
@@ -17,7 +18,7 @@
 		<img id="icon" src="{{ rp }}/static/img/library.ico">
 		<ul class="nav-items">
 			<li><a href="#">Events</a></li>
-			<li><a href="#">Books</a></li>
+			<li><a class="active" href="{{ rp }}/">Books</a></li>
 			<li><a href="#">Resources</a></li>
 			<li><a href="#">Services</a></li>
 			<li><a href="#">About</a></li>
@@ -33,7 +34,6 @@
 
 <!-- scripts -->
 {% block scripts %}
-<script type="text/javascript" src="{{ rp }}/static/scripts/index.js"></script>
 {% endblock %}
 </body>
 </html>

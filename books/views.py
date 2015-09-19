@@ -22,9 +22,15 @@ from datetime import datetime
 def index(request):
 	logged_in = False
 	if request.user.is_authenticated():
-		logged_in = True
+		logged_in = request.user.username
 	books = [book for book in Book.objects.all()[:50]]
 	return render(request, 'home.html', {'books': books, 'logged_in': logged_in })
+
+def getRatingAvg(book):
+	if Review.objects.filter(book=book).exists():
+		reviews = [review.rating for review in Review.objects.filter(book=book)]
+		return sum(reviews)/len(reviews)
+	return None
 
 def book(request, book_id):
 	logged_in = False
@@ -33,6 +39,7 @@ def book(request, book_id):
 	reviews_count = len(reviews)
 	user_id = request.user.id if request.user.is_authenticated() else None
 	submitted = None
+	avg = getRatingAvg(book)
 	if request.user.is_authenticated():
 		logged_in = True
 		user = request.user
@@ -45,6 +52,7 @@ def book(request, book_id):
 										'reviews_count': reviews_count,
 										'logged_in': logged_in, 
 										'submitted': submitted, 
+										'average': avg,
 										'book_id': book_id, 
 										'user_id': user_id,
 										'rp': '../..' })

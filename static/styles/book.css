@@ -1,3 +1,7 @@
+/* clearfix */
+div.heading {
+    margin-top: -171px !important;
+}
 /* clean tabs */
 #tabs-min { 
     background: transparent; 
