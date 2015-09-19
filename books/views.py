@@ -55,12 +55,12 @@ def edit_review(request):
 	title = data['title']
 	content = data['content']
 	review_id = data['review_id']
-	#rating = data['rating']
+	rating = data['rating']
 
 	review = Review.objects.get(id=review_id)
 	review.title = title
 	review.content = content
-	#review.rating = rating
+	review.rating = int(rating)
 	review.updated = datetime.now()
 	try:
 		review.save()
@@ -77,12 +77,12 @@ def new_review(request):
 	content = data['content']
 	book_id = data['book_id']
 	user_id = data['user_id']
-	rating = 0
+	rating = data['rating']
 
 	user = User.objects.get(id=user_id)
 	book = Book.objects.get(id=book_id)
 	try:
-		review = Review(user=user, rating=rating, book=book, title=title, content=content, created=datetime.now(), updated=datetime.now())
+		review = Review(user=user, rating=int(rating), book=book, title=title, content=content, created=datetime.now(), updated=datetime.now())
 		review.save()
 	except Exception as ex:
 		print str(ex)

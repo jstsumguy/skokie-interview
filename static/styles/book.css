@@ -42,7 +42,6 @@ form#new-review {
     border: 2px solid #f2f2f2;
     margin-bottom: 25px;
     border-radius: 19px;
-    margin-top: 15px;
 }
 div.review {
     border-bottom: 2px solid #f2f2f2;
@@ -78,6 +77,13 @@ button#show-form {
 }
 
 /* Stars */
+div.new-rating {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+div.new-rating > span {
+    cursor: pointer;
+}
 .rating {
     unicode-bidi: bidi-override;
     direction: rtl;
@@ -85,12 +91,12 @@ button#show-form {
     margin-bottom: 20px;
 }
 .rating > span {
-  display: inline-block;
-  position: relative;
-  width: 1.1em;
+    display: inline-block;
+    position: relative;
+    width: 1.1em;
 }
 .rating > span:hover:before,
 .rating > span:hover ~ span:before {
-   content: "\2605";
-   position: absolute;
+ content: "\2605";
+ position: absolute;
 }

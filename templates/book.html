@@ -51,9 +51,7 @@
                   <div class="new-review-container" style="display: none;">
                     <form id="new-review" onsubmit="return false;">
                       <input type="hidden" id="review_id" value="{{ submitted.id }}"/>
-                      <input type="hidden" id="rating-val" value="{{ submitted.rating }}" />
-
-                      <div class="rating"><!-- Star --></div>
+                      <div class="new-rating"><!-- Star --></div>
                       <input type="text" class="form-component" id="review-title" value="{{ submitted.title }}">
                       <textarea id="review-content" class="form-component">{{ submitted.content }}</textarea>
                       <button id="submit-edit-review" type="button" class="btn btn-default">Edit</button>
@@ -64,6 +62,9 @@
                   <button type="button" id="show-form" class="btn btn-info">New</button>
                   <div class="new-review-container" style="display: none;">
                     <form id="new-review" onsubmit="return false;">
+                      <div class="new-rating">
+                        <!-- Star -->
+                      </div>
                       <input type="text" class="form-component" id="review-title" placeholder="Add a title">
                       <textarea class="form-component" id="review-content" placeholder="Add content here"></textarea>
                       <button id="submit-new-review" type="button" class="btn btn-default">Submit</button>
@@ -100,98 +101,5 @@
 </div>
 {% endblock %}
 {% block scripts %}
-<script type="text/javascript">
-$(document).ready(function() {
-  var user_id = $('#user_id').val();
-  var book_id = $('#book_id').val();
-  var rating = $('#rating-val').val();
-  console.log('Rating ' + rating);
-
-  /* init stars */
-  if((!isNaN(rating)) && (rating > 0)) {
-    rating_container = document.getElementsByClassName('rating')[0];
-    for(i=1; i <= rating; i++) {
-      star = document.createElement('span');
-      star.innerHTML = '&#9733';
-      star.setAttribute('id', 'star-' + i);
-      rating_container.appendChild(star);
-    }
-  }
-  var ratings = document.getElementsByClassName('review');
-  for(i=0; i < ratings.length; i++) {
-    parent = ratings[i];
-    rval = parent.getElementsByClassName('rating_value')[0].value;
-    if((!isNaN(rval)) && (rval > 0)) {
-        for(k=1; k <= rval; k++) {
-          star = document.createElement('span');
-          star.innerHTML = '&#9733';
-          star.className = 'star';
-          nodeBefore = parent.getElementsByClassName('review-title')[0];
-          parent.insertBefore(star, nodeBefore);
-      }// inner for
-    } // if
-  }// for
-
-  // function createStarWidget(parent, ratingVal) {
-  //   for(i=1; i <= ratingVal; i++) {
-  //     star = document.createElement('span');
-  //     star.innerHTML = '&#9733';
-  //     star.className = 'star';
-  //     parent.appendChild(star);
-  //   }
-  // }
-
-  $('#submit-edit-review').on('click', function(event) {
-    event.preventDefault();
-    data = {};
-    data.title = $('#review-title').val();
-    data.content = $('#review-content').val();
-    data.review_id = $('#review_id').val();
-    console.log(JSON.stringify(data));
-    $.ajax({
-      url: '../../edit_review/',
-      type: 'post',
-      data: JSON.stringify(data),
-      success: function(response) {
-        if(response == 'success') {
-          location.reload();
-        }
-      } 
-    })
-  })
-
-  $('#submit-new-review').on('click', function(event) {
-    event.preventDefault();
-    console.log('clicked new review button');
-    data = {};
-    data['title'] = $('#review-title').val();
-    data['content'] = $('#review-content').val();
-    data['user_id'] = user_id;
-    data['book_id'] = book_id;
-    data['rating'] = $('#rating-val');
-
-    if(data['user_id'] != null) {
-      console.log('calling ajax');
-      $.ajax({
-        url: '../../new_review/',
-        type: 'post',
-        data: JSON.stringify(data),
-        success: function(response) {
-          if(response == 'success') {
-            location.reload();
-          }
-        } 
-      })
-    }
-  })
-
-  $('#show-form').on('click', function() {
-    $('.reviews-container').css('display', 'none');
-    $('#show-form').css('display', 'none');
-    $('#alert').css('display', 'none');
-    $('div.new-review-container').fadeIn('slow');
-  })
-
-})
-</script>
+<script type="text/javascript" src="{{ rp }}/static/scripts/book.js"></script>
 {% endblock %}
