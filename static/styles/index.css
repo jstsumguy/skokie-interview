@@ -58,7 +58,7 @@ div.heading { width: 75%; float: right; margin-top: -140px;}
 #login {
 	color: white;
 	position: absolute;
-	top: 10px;
+	top: 20px;
 	right: 20px;
 	height: 35px;
 	width: 35px;
@@ -72,7 +72,7 @@ div.heading { width: 75%; float: right; margin-top: -140px;}
 #logout {
 	color: white;
 	position: absolute;
-	top: 10px;
+	top: 20px;
 	right: 20px;
 	height: 35px;
 	width: 35px;
